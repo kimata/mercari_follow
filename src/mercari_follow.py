@@ -70,6 +70,7 @@ def item_price_down(driver, wait, profile, item):
 def follow_items(driver, wait, item_list):
     for item in item_list:
         item_price_down(driver, wait, profile, item)
+        random_sleep(3)
 
 
 def do_work(config, profile):
