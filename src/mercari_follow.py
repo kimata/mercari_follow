@@ -12,14 +12,13 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 import sys
 import random
-
+import time
 import pathlib
 import traceback
 
 from selenium_util import (
     create_driver,
     click_xpath,
-    wait_patiently,
     dump_page,
     clean_dump,
     random_sleep,
@@ -29,6 +28,7 @@ import logger
 import mercari
 from config import load_config
 
+SLEEP_UNIT = 60
 WAIT_TIMEOUT_SEC = 15
 
 DATA_PATH = pathlib.Path(os.path.dirname(__file__)).parent / "data"
@@ -45,6 +45,23 @@ ITEM_URL = "https://jp.mercari.com/transaction/{id}"
 
 # NOTE: True にすると，最初のアイテムだけ処理され，価格変更も行われない
 DEBUG = False
+
+
+def sleep_until(end_time):
+    sleep_remain = end_time - time.time()
+    logging.info("sleep {sleep:,} sec...".format(sleep=int(sleep_remain)))
+
+    while True:
+        # NOTE: Livenss がタイムアウトしないよう，定期的に更新する
+        pathlib.Path(config["liveness"]["file"]).touch()
+
+        sleep_remain = end_time - time.time()
+        if sleep_remain < 0:
+            return
+        elif sleep_remain < SLEEP_UNIT:
+            time.sleep(sleep_remain)
+        else:
+            time.sleep(SLEEP_UNIT)
 
 
 def item_price_down(driver, wait, profile, item):
@@ -108,10 +125,11 @@ logger.init("bot.mercari.inventory")
 
 logging.info("Start.")
 
-config = load_config()
+while True:
+    start_time = time.time()
+    config = load_config()
 
-ret_code = 0
-for profile in config["profile"]:
-    ret_code += do_work(config, profile)
+    for profile in config["profile"]:
+        do_work(config, profile)
 
-sys.exit(ret_code)
+    sleep_until(start_time + config["interval"])
