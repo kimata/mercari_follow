@@ -1,0 +1,10 @@
+profile:
+  - name: Profile 1
+    user: メールアドレス
+    pass: パスワード
+
+    target:
+      - id: m12345678901
+        comment: 受け取り評価をお願いいたします。
+      - id: m98765432101
+        comment: 受け取り評価をお願いいたします。
