@@ -56,7 +56,7 @@ def item_price_down(driver, wait, profile, item):
 
     if status_text != "商品の発送を通知しました":
         logging.warning(
-            "ステータスが想定とこなるので，スキップします．(status: {status}".format(status=status_text)
+            "ステータスが想定と異なるので，スキップします．(status: {status}".format(status=status_text)
         )
         return
 
