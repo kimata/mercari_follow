@@ -121,7 +121,7 @@ def do_work(config, profile):
 
 os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))
 
-logger.init("bot.mercari.inventory")
+logger.init("bot.mercari.follow")
 
 logging.info("Start.")
 
