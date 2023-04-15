@@ -64,7 +64,7 @@ def sleep_until(end_time):
             time.sleep(SLEEP_UNIT)
 
 
-def item_price_down(driver, wait, profile, item):
+def item_follow(driver, wait, profile, item):
     logging.info("{id} を処理します．".format(id=item["id"]))
     driver.get(ITEM_URL.format(id=item["id"]))
 
@@ -84,9 +84,9 @@ def item_price_down(driver, wait, profile, item):
     logging.info("完了しました．")
 
 
-def follow_items(driver, wait, item_list):
+def do_follow_items(driver, wait, item_list):
     for item in item_list:
-        item_price_down(driver, wait, profile, item)
+        item_follow(driver, wait, profile, item)
         random_sleep(3)
 
 
@@ -101,7 +101,7 @@ def do_work(config, profile):
 
         mercari.login(config, driver, wait, profile)
 
-        follow_items(driver, wait, profile["target"])
+        do_follow_items(driver, wait, profile["target"])
 
         log_memory_usage(driver)
 
