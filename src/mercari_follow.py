@@ -69,7 +69,7 @@ def item_price_down(driver, wait, profile, item):
     driver.get(ITEM_URL.format(id=item["id"]))
 
     wait.until(EC.presence_of_element_located((By.XPATH, "//textarea")))
-    status_text = driver.find_element(By.XPATH, '//mer-text[@slot="title"]').text
+    status_text = driver.find_element(By.XPATH, '//p[@slot="title"]').text
 
     if status_text != "商品の発送を通知しました":
         logging.warning(
