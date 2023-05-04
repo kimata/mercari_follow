@@ -27,6 +27,7 @@ from selenium_util import (
 import logger
 import mercari
 from config import load_config
+import notify_slack
 
 SLEEP_UNIT = 60
 WAIT_TIMEOUT_SEC = 15
@@ -110,6 +111,15 @@ def do_work(config, profile):
     except:
         logging.error("URL: {url}".format(url=driver.current_url))
         logging.error(traceback.format_exc())
+
+        if "slack" in config:
+            notify_slack.error(
+                config["slack"]["bot_token"],
+                config["slack"]["info"]["channel"],
+                traceback.format_exc(),
+                config["slack"]["error"]["interval_min"],
+            )
+
         dump_page(driver, int(random.random() * 100))
         clean_dump()
 
