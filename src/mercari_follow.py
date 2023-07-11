@@ -70,7 +70,9 @@ def item_follow(driver, wait, profile, item):
     driver.get(ITEM_URL.format(id=item["id"]))
 
     wait.until(EC.presence_of_element_located((By.XPATH, "//textarea")))
-    status_text = driver.find_element(By.XPATH, '//p[@slot="title"]').text
+    status_text = driver.find_element(
+        By.XPATH, '//aside[@data-partner-id="status-banner"]'
+    ).get_attribute("aria-label")
 
     if status_text != "商品の発送を通知しました":
         logging.warning(
