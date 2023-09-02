@@ -1,0 +1,19 @@
+profile:
+    - name: Profile 1
+      user: メールアドレス
+      pass: パスワード
+
+      target:
+          - id: m12345678901
+            comment: 受け取り評価をお願いいたします。
+            status: 商品の発送を通知しました
+
+          - id: m98765432101
+            comment: 受け取り評価をお願いいたします。
+            status: 商品の発送を通知しました
+
+interval: 7200
+
+liveness:
+    file: /dev/shm/healthz
+    interval: 300

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-# - coding: utf-8 --
-import coloredlogs
+# -*- coding: utf-8 -*-
+import bz2
+import io
 import logging
 import logging.handlers
-import bz2
 import os
-import io
+
+import coloredlogs
 
 LOG_FORMAT = "{name} %(asctime)s %(levelname)s [%(filename)s:%(lineno)s %(funcName)s] %(message)s"
 
@@ -27,9 +28,7 @@ def init(name, level=logging.WARNING, is_str=False):
     if is_str:
         str_io = io.StringIO()
         handler = logging.StreamHandler(str_io)
-        handler.formatter = logging.Formatter(
-            fmt=LOG_FORMAT.format(name=name), datefmt="%Y-%m-%d %H:%M:%S"
-        )
+        handler.formatter = logging.Formatter(fmt=LOG_FORMAT.format(name=name), datefmt="%Y-%m-%d %H:%M:%S")
         logging.getLogger().addHandler(handler)
 
         return str_io
