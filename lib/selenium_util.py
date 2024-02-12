@@ -47,10 +47,9 @@ def create_driver_impl(profile_name, data_path):
     options.add_argument("--lang=ja-JP")
     options.add_argument("--window-size=1920,1080")
 
-    # NOTE: これがないと，yodobashi.com がタイムアウトする
-    options.add_argument(
-        '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:108.0) Gecko/20100101 Firefox/108.0"'
-    )
+    # options.add_argument(
+    #     '--user-agent=""'
+    # )
 
     options.add_argument("--user-data-dir=" + str(chrome_data_path / profile_name))
 
@@ -103,7 +102,9 @@ def is_display(driver, xpath):
 
 
 def random_sleep(sec):
-    time.sleep(sec + sec / 2.0 * random.random())
+    RATIO = 0.8
+
+    time.sleep((sec * RATIO) + (sec * (1 - RATIO) * 2) * random.random())
 
 
 def wait_patiently(driver, wait, target):
